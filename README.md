@@ -11,18 +11,20 @@ Offline-first fitness & nutrition tracker built for Ghana — Ghanaian food data
 - sqflite (SQLite) — local, offline-first database
 - Supabase — hosted backend, added once the local app works
 
-## Status: Build Order step 1 — Project scaffold + local DB + models ✅
+## Status: Build Order step 2 — Ghana food dataset + search + meal logging ✅
 
 - [x] Flutter project scaffold
 - [x] SQLite schema (`lib/core/database/database_helper.dart`) — all 9 tables from the spec
 - [x] Data models (`lib/core/models/`) — one per table, with `toMap`/`fromMap`
-- [x] DB smoke-test screen on app launch
-- [ ] Ghana food dataset seed (Build Order step 2)
-- [ ] Food search + meal logging UI
-- [ ] Workout logging, exercise library, PR tracking
-- [ ] Activity logging with MET-based calories
-- [ ] Barcode/QR scanning + product dataset
-- [ ] Supabase auth + sync
+- [x] Ghana food dataset seed (`lib/core/database/seed/food_seed_data.dart`) — 87 real dishes across all 8 categories, auto-seeded on first launch
+- [x] Food search (by name/local name + category filter)
+- [x] Food detail screen — serving-size adjuster, meal-type selector, live calorie preview, add-to-meal
+- [x] Nutrition Home — today's meals grouped by type, daily calorie/macro totals, delete a logged meal
+- [x] Guest user auto-created on first launch (v1 "guest mode" per spec)
+- [ ] Workout logging, exercise library, PR tracking (Build Order step 3)
+- [ ] Activity logging with MET-based calories (Build Order step 4)
+- [ ] Barcode/QR scanning + product dataset (Build Order step 5)
+- [ ] Supabase auth + sync (Build Order step 6)
 
 ## Getting started
 
