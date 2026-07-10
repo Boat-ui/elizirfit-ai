@@ -11,17 +11,20 @@ Offline-first fitness & nutrition tracker built for Ghana — Ghanaian food data
 - sqflite (SQLite) — local, offline-first database
 - Supabase — hosted backend, added once the local app works
 
-## Status: Build Order step 2 — Ghana food dataset + search + meal logging ✅
+## Status: Build Order step 3 — Workout logging, exercise library, PR tracking ✅
 
 - [x] Flutter project scaffold
 - [x] SQLite schema (`lib/core/database/database_helper.dart`) — all 9 tables from the spec
 - [x] Data models (`lib/core/models/`) — one per table, with `toMap`/`fromMap`
-- [x] Ghana food dataset seed (`lib/core/database/seed/food_seed_data.dart`) — 87 real dishes across all 8 categories, auto-seeded on first launch
-- [x] Food search (by name/local name + category filter)
-- [x] Food detail screen — serving-size adjuster, meal-type selector, live calorie preview, add-to-meal
-- [x] Nutrition Home — today's meals grouped by type, daily calorie/macro totals, delete a logged meal
-- [x] Guest user auto-created on first launch (v1 "guest mode" per spec)
-- [ ] Workout logging, exercise library, PR tracking (Build Order step 3)
+- [x] Ghana food dataset seed — 87 real dishes across all 8 categories, auto-seeded on first launch
+- [x] Food search, food detail, meal logging, Nutrition Home with daily totals
+- [x] Exercise library seed (`lib/core/database/seed/exercise_seed_data.dart`) — 68 exercises across all 7 categories, auto-seeded on first launch
+- [x] Exercise Library screen — searchable/filterable by category, also used as an in-workout exercise picker
+- [x] Active Workout — add exercises, log sets (reps/weight/RPE), delete sets, finish workout
+- [x] Workout Home — resume in-progress workout, history list
+- [x] Workout Detail — full past-session breakdown
+- [x] Personal Records — best set per exercise, ranked by Epley-formula estimated 1RM, most recent first
+- [x] `HomeShell` — bottom navigation across Nutrition / Workout / Activity / Progress / Profile (last three are "coming soon" placeholders until their own steps)
 - [ ] Activity logging with MET-based calories (Build Order step 4)
 - [ ] Barcode/QR scanning + product dataset (Build Order step 5)
 - [ ] Supabase auth + sync (Build Order step 6)
@@ -39,21 +42,25 @@ On launch you should see a "ElizirFit AI — DB Check" screen listing all 9 tabl
 
 ```
 lib/
-  main.dart                      # app entry point, temporary DB-check screen
+  main.dart                      # app entry point, boots into HomeShell
   core/
     database/
       database_helper.dart       # SQLite schema + singleton DB access
-    models/
-      user.dart
-      food.dart
-      product.dart
-      meal_log.dart
-      exercise.dart
-      workout.dart
-      workout_set.dart
-      activity_log.dart
-      water_log.dart
-  features/                      # screen-by-screen UI, added as we build each module
+      seed/
+        food_seed_data.dart      # Ghana food dataset
+        exercise_seed_data.dart  # exercise library dataset
+    models/                      # one per table
+    repositories/                # DB access + business logic per module
+    providers/
+      app_providers.dart         # all Riverpod wiring
+  features/
+    shell/
+      home_shell.dart            # bottom nav across all top-level modules
+    nutrition/                   # Nutrition Home, Food Search, Food Detail
+    workout/                     # Workout Home, Active Workout, Exercise Library,
+                                  # Exercise Detail, Workout Detail, Personal Records
+    placeholder/
+      coming_soon_screen.dart    # stand-in for modules not yet built
 ```
 
 ## Notes

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'core/providers/app_providers.dart';
-import 'features/nutrition/nutrition_home_screen.dart';
+import 'features/shell/home_shell.dart';
 
 void main() {
   runApp(const ProviderScope(child: ElizirFitApp()));
@@ -25,9 +25,9 @@ class ElizirFitApp extends StatelessWidget {
   }
 }
 
-/// Waits on [appInitProvider] (DB open + food dataset seed) before showing
-/// any real screen. On success, goes straight to Nutrition Home — this is
-/// the app's actual entry point now that Step 2 is built.
+/// Waits on [appInitProvider] (DB open + dataset seeds) before showing
+/// any real screen. On success, goes straight to the HomeShell — this is
+/// the app's actual entry point now that Step 3 is built.
 class _AppRoot extends ConsumerWidget {
   const _AppRoot();
 
@@ -36,7 +36,7 @@ class _AppRoot extends ConsumerWidget {
     final initAsync = ref.watch(appInitProvider);
 
     return initAsync.when(
-      data: (_) => const NutritionHomeScreen(),
+      data: (_) => const HomeShell(),
       loading: () => const Scaffold(
         body: Center(child: CircularProgressIndicator()),
       ),
