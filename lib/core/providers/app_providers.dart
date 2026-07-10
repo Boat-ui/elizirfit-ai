@@ -3,6 +3,7 @@ import 'package:sqflite/sqflite.dart';
 
 import '../database/database_helper.dart';
 import '../models/user.dart';
+import '../repositories/activity_repository.dart';
 import '../repositories/exercise_repository.dart';
 import '../repositories/food_repository.dart';
 import '../repositories/meal_log_repository.dart';
@@ -42,6 +43,11 @@ final exerciseRepositoryProvider = Provider<ExerciseRepository>((ref) {
 final workoutRepositoryProvider = Provider<WorkoutRepository>((ref) {
   final db = ref.watch(appInitProvider).requireValue;
   return WorkoutRepository(db);
+});
+
+final activityRepositoryProvider = Provider<ActivityRepository>((ref) {
+  final db = ref.watch(appInitProvider).requireValue;
+  return ActivityRepository(db);
 });
 
 /// The current local user. Guest by default until Step 6 (Supabase auth).
@@ -127,4 +133,31 @@ final workoutSetsProvider = FutureProvider.autoDispose.family((ref, String worko
   ref.watch(workoutRefreshProvider);
   final repo = ref.watch(workoutRepositoryProvider);
   return repo.getSetsGrouped(workoutId);
+});
+
+// ---- Activity ----
+
+/// Bumped after any activity log/delete so screens watching activity
+/// state refetch.
+final activityRefreshProvider = StateProvider<int>((ref) => 0);
+
+final todaysActivitiesProvider = FutureProvider.autoDispose((ref) async {
+  ref.watch(activityRefreshProvider);
+  final user = await ref.watch(currentUserProvider.future);
+  final repo = ref.watch(activityRepositoryProvider);
+  return repo.getEntriesForDay(userId: user.id);
+});
+
+final todaysActivityCaloriesProvider = FutureProvider.autoDispose((ref) async {
+  ref.watch(activityRefreshProvider);
+  final user = await ref.watch(currentUserProvider.future);
+  final repo = ref.watch(activityRepositoryProvider);
+  return repo.getTotalCaloriesForDay(userId: user.id);
+});
+
+final activityHistoryProvider = FutureProvider.autoDispose((ref) async {
+  ref.watch(activityRefreshProvider);
+  final user = await ref.watch(currentUserProvider.future);
+  final repo = ref.watch(activityRepositoryProvider);
+  return repo.getHistory(user.id);
 });

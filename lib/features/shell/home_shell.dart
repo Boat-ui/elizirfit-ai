@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
+import '../activity/activity_home_screen.dart';
 import '../nutrition/nutrition_home_screen.dart';
 import '../placeholder/coming_soon_screen.dart';
 import '../workout/workout_home_screen.dart';
 
 /// App shell with bottom navigation across the five top-level modules
-/// from the spec's screen inventory (Section 5). Nutrition and Workout
-/// are live; Activity, Progress, and Profile show a "coming soon" screen
+/// from the spec's screen inventory (Section 5). Nutrition, Workout, and
+/// Activity are live; Progress and Profile show a "coming soon" screen
 /// until their own Build Order steps land.
 class HomeShell extends StatefulWidget {
   const HomeShell({super.key});
@@ -21,11 +22,7 @@ class _HomeShellState extends State<HomeShell> {
   static const _screens = [
     NutritionHomeScreen(),
     WorkoutHomeScreen(),
-    ComingSoonScreen(
-      title: 'Activity',
-      icon: Icons.directions_run,
-      buildStep: 'Activity logging with MET-based calories — Build Order step 4.',
-    ),
+    ActivityHomeScreen(),
     ComingSoonScreen(
       title: 'Progress',
       icon: Icons.trending_up,

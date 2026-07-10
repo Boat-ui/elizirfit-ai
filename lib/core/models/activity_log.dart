@@ -53,6 +53,20 @@ class MetValues {
   static const double walking = 3.5;
   static const double running = 9.8;
   static const double cycling = 7.5;
+  static const double other = 4.0; // general moderate activity
+
+  static double metFor(String activityType) {
+    switch (activityType) {
+      case 'walk':
+        return walking;
+      case 'run':
+        return running;
+      case 'cycle':
+        return cycling;
+      default:
+        return other;
+    }
+  }
 
   static double estimateCalories({
     required double metValue,
